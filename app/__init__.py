@@ -32,3 +32,11 @@ def index():
 @app.route('/hobbies')
 def aboutMe():
     return render_template('hobbies.html', hobbies=hobbiesArray)
+
+@app.route('/experience')
+def experience():
+    return render_template('workExperience.html')
+
+@app.route('/places')
+def places():
+    return render_template('places.html', title="Places")
