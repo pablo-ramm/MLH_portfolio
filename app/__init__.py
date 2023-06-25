@@ -7,29 +7,27 @@ app = Flask(__name__)
 
 hobbiesArray = [{
     "name": "Coding",
-    "description": "I love coding and learning new things. I am currently learning how to use Flask and how to deploy a website using Heroku."
+    "description": "I like coding and learning new things. I am currently learning how to use Flask and about deploying microservices.",
+    "image": "static/img/coding.jpeg"
 },{
     "name": "Reading",
-    "description": "I love reading books. I am currently reading 'The 7 Habits of Highly Effective People' by Stephen Covey."
+    "description": "I love reading books. I am currently reading 'The 7 Habits of Highly Effective People' by Stephen Covey.",
+    "image": "static/img/reading.webp"
 },{
-    "name": "Playing Video Games",
-    "description": "I love playing video games. I am currently playing 'The Legend of Zelda: Breath of the Wild' on the Nintendo Switch."
+    "name": "Movies",
+    "description": "I watch a lot of movies with my family. My favorite movies are the Indiana Jones series.",
+    "image": "static/img/movies.jpeg"
 },{
-    "name": "Coding",
-    "description": "I love coding and learning new things. I am currently learning how to use Flask and how to deploy a website using Heroku."
-},{
-    "name": "Reading",
-    "description": "I love reading books. I am currently reading 'The 7 Habits of Highly Effective People' by Stephen Covey."
-},{
-    "name": "Playing Video Games",
-    "description": "I love playing video games. I am currently playing 'The Legend of Zelda: Breath of the Wild' on the Nintendo Switch."
+    "name": "Running",
+    "description": "I Like going for a run, makes me feel relax. I am planning to run a marathon.",
+    "image": "static/img/running.jpeg"
 }]
 
 education = [
     {
         "school_name": "Monterrey Institute of Technology and Higher Education",
         "degree": "High School",
-        "field_of_study": "General",
+        "field_of_study": "",
         "start_year": "2017",
         "end_year": "2020",
         "grade": "90",
