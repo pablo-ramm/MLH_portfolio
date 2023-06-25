@@ -30,5 +30,13 @@ def index():
     return render_template('index.html', title="MLH Fellow", url=os.getenv("URL"))
 
 @app.route('/hobbies')
-def aboutMe():
+def hobbies():
     return render_template('hobbies.html', hobbies=hobbiesArray)
+
+@app.route('/experience')
+def experience():
+    return render_template('workExperience.html')
+
+@app.route('/places')
+def places():
+    return render_template('places.html', title="Places")
