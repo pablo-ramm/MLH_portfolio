@@ -43,6 +43,24 @@ education = [
         "description": "Especializing in Software Engineering."
     }
 ]
+work_experience = [
+    {
+        "job_title": "Software Engineer",
+        "company_name": "Google",
+        "start_date": "January 2021",
+        "end_date": "Present",
+        "location": "Mountain View, CA",
+        "description": "Working on the Search team to improve the ranking algorithm."
+    },
+    {
+        "job_title": "Intern",
+        "company_name": "Microsoft",
+        "start_date": "May 2020",
+        "end_date": "August 2020",
+        "location": "Redmond, WA",
+        "description": "Worked on improving the performance of the Excel calculation engine."
+    }
+]
 
 @app.route('/')
 def index():
@@ -52,10 +70,6 @@ def index():
 def hobbies():
     return render_template('hobbies.html', hobbies=hobbiesArray)
 
-@app.route('/experience')
-def experience():
-    return render_template('workExperience.html')
-
 @app.route('/places')
 def places():
     return render_template('places.html', title="Places")
@@ -63,3 +77,8 @@ def places():
 @app.route('/education')
 def education_page():
     return render_template('education.html', title='Education', education=education)
+
+@app.route('/experience')
+def experience_page():
+    return render_template('experience.html', title='Work Experience', work_experience=work_experience)
+
