@@ -1,19 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
-    <header class="nav-bar">
-        <div class="nav-content">
-            <a href="/">
-                <div class="nav-logo">
-                    <img src="./static/img/logo.svg" />
-                </div>
-            </a>
-        </div>
-    </header>
+<style>
+    body {
+        background: url('url_to_your_image') no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
 
-    <div class="profile">
-        <div id="profile-picture" class="profile-picture">
-            <img src="./static/img/logo.jpg">
-        </div>
-        <h1>{{ title }}</h1>
-    </div>
+    .jumbotron {
+        background-color: #265a8f;
+        color: white;
+    }
+
+    .btn-custom {
+        background-color: #fdee00;
+        color: #265a8f;
+    }
+</style>
+
+<div class="jumbotron text-center">
+    <h1 class="display-4">Welcome to My Personal Portfolio!</h1>
+    <p class="lead">I am a CS student</p>
+    <hr class="my-4">
+    <a class="btn btn-custom btn-lg" href="#" role="button">Learn more</a>
+</div>    
 {% endblock %}
