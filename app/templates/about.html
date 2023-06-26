@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+<!-- 
+    This is a component for jinja template engine, receives two arguments: name and value. 
+    Renders a title and a progress bar
+-->
+{% macro langElement(name, value='') -%}
+    <div class="pt-2">
+        <p>{{ name }}</p>
+        <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar" style="width: {{ value }}%" aria-valuenow="{{ value }}" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    </div>
+{%- endmacro %}
+
+{% block content %}
+<div class="container my-4">
+    <h2>About me</h2>
+    <h3>Who I am?</h3>
+    <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam a maxime perferendis non animi dicta sint, quae molestias quos temporibus facere, iure tempore id recusandae doloribus ratione blanditiis? Hic, illum?
+    </p>
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        Programming languages
+                    </h5>
+                    <div class="flex flex-column gap-5">
+                        {{ langElement('HTML','100') }}
+                        {{ langElement('CSS','100') }}
+                        {{ langElement('Typescript','80') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ml-auto col-sm-5">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Skills</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Team player</li>
+                        <li class="list-group-item">Reliable</li>
+                        <li class="list-group-item">Responsible</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}

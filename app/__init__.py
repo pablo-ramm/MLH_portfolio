@@ -40,3 +40,7 @@ def experience():
 @app.route('/places')
 def places():
     return render_template('places.html', title="Places")
+
+@app.route('/about')
+def aboutMe():
+    return render_template('about.html', title='About me')
