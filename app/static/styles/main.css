@@ -69,11 +69,11 @@ body {
         margin-left: auto;
         margin-right: auto;
         display: block;        
-        padding: 20px;
+        padding: 10px;
 }
 
 .profile .profile-picture {
-    margin-bottom: 30px;
+    margin-bottom: 0px;
     height: 200px;
 }
 

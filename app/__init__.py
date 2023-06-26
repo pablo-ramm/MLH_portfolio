@@ -64,7 +64,7 @@ work_experience = [
 
 @app.route('/')
 def index():
-    return render_template('index.html', title="MLH Fellow", url=os.getenv("URL"))
+    return render_template('about.html', title='name')
 
 @app.route('/hobbies')
 def hobbies():
@@ -73,10 +73,6 @@ def hobbies():
 @app.route('/places')
 def places():
     return render_template('places.html', title="Places")
-
-@app.route('/about')
-def aboutMe():
-    return render_template('about.html', title='About me')
 
 @app.route('/education')
 def education_page():
