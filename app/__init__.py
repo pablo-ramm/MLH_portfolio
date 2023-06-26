@@ -74,6 +74,10 @@ def hobbies():
 def places():
     return render_template('places.html', title="Places")
 
+@app.route('/about')
+def aboutMe():
+    return render_template('about.html', title='About me')
+
 @app.route('/education')
 def education_page():
     return render_template('education.html', title='Education', education=education)
@@ -81,4 +85,3 @@ def education_page():
 @app.route('/experience')
 def experience_page():
     return render_template('experience.html', title='Work Experience', work_experience=work_experience)
-
