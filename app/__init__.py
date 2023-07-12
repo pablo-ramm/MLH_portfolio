@@ -1,9 +1,36 @@
 import os
 from flask import Flask, render_template, request
 from dotenv import load_dotenv
+from peewee import *
+import datetime
+from playhouse.shortcuts import model_to_dict
+from flask_cors import CORS, cross_origin
 
 load_dotenv()
 app = Flask(__name__)
+cors = CORS(app)
+
+mydb = MySQLDatabase(
+        os.getenv('MYSQL_DATABASE'), 
+        user=os.getenv('MYSQL_USER'), 
+        password=os.getenv('MYSQL_PASSWORD'), 
+        host=os.getenv('MYSQL_HOST'), 
+        port=3306
+    )
+
+print(mydb)
+
+class TimelinePost(Model):
+    name = CharField()
+    email = CharField()
+    content = TextField()
+    created_at = DateTimeField(default=datetime.datetime.now)
+
+    class Meta:
+        database = mydb
+
+mydb.connect()
+mydb.create_tables([TimelinePost])
 
 hobbiesArray = [{
     "name": "Coding",
@@ -22,7 +49,6 @@ hobbiesArray = [{
     "description": "I Like going for a run, makes me feel relax. I am planning to run a marathon.",
     "image": "static/img/running.jpeg"
 }]
-
 education = [
     {
         "school_name": "Monterrey Institute of Technology and Higher Education",
@@ -81,3 +107,46 @@ def education_page():
 @app.route('/experience')
 def experience_page():
     return render_template('experience.html', title='Work Experience', work_experience=work_experience)
+
+# API endpoints
+@app.route('/api/timeline_post', methods=['POST'])
+@cross_origin()
+def post_time_line_post():
+    name = request.form['name']
+    email = request.form['email']
+    content = request.form['content']
+    timeline_post = TimelinePost.create(name=name, email=email, content=content)
+
+    return model_to_dict(timeline_post)
+
+@app.route('/api/timeline_post', methods=['GET'])
+@cross_origin()
+def get_time_line_post():
+    return {
+        'timeline_posts':[
+            model_to_dict(p) for p  in TimelinePost.select().order_by(TimelinePost.created_at)
+        ]
+    }
+
+@app.route('/api/timeline_post', methods=['DELETE'])
+@cross_origin()
+def delete_time_line_post():
+    id = request.form['id']
+    
+    if (id == 'test'):
+        TimelinePost.get(TimelinePost.name == id).delete_instance()
+        return {
+            'message': 'deleted'
+        }
+
+    try:
+        post = TimelinePost.get_by_id(id)
+        post.delete_instance()
+        return {
+            "message": 'deleted successfully'
+        }
+    except:
+        return {
+            "message": "An error happended while deleting the instance"
+        }
+    
