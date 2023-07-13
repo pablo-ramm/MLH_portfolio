@@ -4,11 +4,9 @@ from dotenv import load_dotenv
 from peewee import *
 import datetime
 from playhouse.shortcuts import model_to_dict
-from flask_cors import CORS, cross_origin
 
 load_dotenv()
 app = Flask(__name__)
-cors = CORS(app)
 
 mydb = MySQLDatabase(
         os.getenv('MYSQL_DATABASE'), 
@@ -114,7 +112,6 @@ def timeline():
 
 # API endpoints
 @app.route('/api/timeline_post', methods=['POST'])
-@cross_origin()
 def post_time_line_post():
     name = request.form['name']
     email = request.form['email']
@@ -124,7 +121,6 @@ def post_time_line_post():
     return model_to_dict(timeline_post)
 
 @app.route('/api/timeline_post', methods=['GET'])
-@cross_origin()
 def get_time_line_post():
     return {
         'timeline_posts':[
@@ -133,7 +129,6 @@ def get_time_line_post():
     }
 
 @app.route('/api/timeline_post', methods=['DELETE'])
-@cross_origin()
 def delete_time_line_post():
     id = request.form['id']
     
