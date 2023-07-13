@@ -101,12 +101,16 @@ def places():
     return render_template('places.html', title="Places")
 
 @app.route('/education')
-def education_page():
+def education():
     return render_template('education.html', title='Education', education=education)
 
 @app.route('/experience')
-def experience_page():
+def experience():
     return render_template('experience.html', title='Work Experience', work_experience=work_experience)
+
+@app.route('/timeline')
+def timeline():
+    return render_template('timeline.html', title='')
 
 # API endpoints
 @app.route('/api/timeline_post', methods=['POST'])
@@ -124,7 +128,7 @@ def post_time_line_post():
 def get_time_line_post():
     return {
         'timeline_posts':[
-            model_to_dict(p) for p  in TimelinePost.select().order_by(TimelinePost.created_at)
+            model_to_dict(p) for p  in TimelinePost.select().order_by(-TimelinePost.created_at)
         ]
     }
 
