@@ -118,7 +118,13 @@ body {
                     .then(data => {
                         const timeline = document.querySelector('#timeline');
                         const newPost = document.createElement('div');
-                        newPost.innerHTML = `<h3>${data.name}</h3><p>${data.content}</p><p> Posted by: ${data.email}</p>`;
+                        newPost.innerHTML = `<div class="card my-3">
+            <div class="card-body">
+                <h5 class="card-title"> ${ data.name }</h5>
+                <p class="card-text">${ data.content }</p>
+                <p class="card-text"><small class="text-muted">Posted by: ${ data.email }</small></p>
+            </div>
+        </div>`;
                         timeline.appendChild(newPost);
 
                         // Clear the form fields
@@ -132,8 +138,6 @@ body {
 </head>
 
 <body>
-    
-    <h4 class="header-text">Add Timeline</h4>
     <h4 class="header-text">Add Timeline</h4>
 
     <form action="/api/timeline_post" method="post">
