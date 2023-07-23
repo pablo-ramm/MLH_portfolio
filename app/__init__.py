@@ -1,21 +1,22 @@
 import os
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from dotenv import load_dotenv
 from peewee import *
 import datetime
 from playhouse.shortcuts import model_to_dict
 import re
+import requests
 
 load_dotenv()
 app = Flask(__name__)
 
 mydb = MySQLDatabase(
-        os.getenv('MYSQL_DATABASE'), 
-        user=os.getenv('MYSQL_USER'), 
-        password=os.getenv('MYSQL_PASSWORD'), 
-        host=os.getenv('MYSQL_HOST'), 
-        port=3306
-    )
+            os.getenv('MYSQL_DATABASE'), 
+            user=os.getenv('MYSQL_USER'), 
+            password=os.getenv('MYSQL_PASSWORD'), 
+            host=os.getenv('MYSQL_HOST'), 
+            port=3306
+)
 
 if os.getenv("TESTING") == "true":
     print("Running in test mode")
@@ -31,16 +32,17 @@ else:
     
 print(mydb)
 
+
 class TimelinePost(Model):
     name = CharField()
     email = CharField()
     content = TextField()
     created_at = DateTimeField(default=datetime.datetime.now)
-
     class Meta:
         database = mydb
 
 mydb.connect()
+print(mydb)
 mydb.create_tables([TimelinePost])
 
 hobbiesArray = [{
@@ -136,7 +138,6 @@ def post_time_line_post():
         return "Invalid email", 400
     if not content:
         return "Invalid content", 400
-    
     timeline_post = TimelinePost.create(name=name, email=email, content=content)
 
     return model_to_dict(timeline_post)
@@ -169,4 +170,11 @@ def delete_time_line_post():
         return {
             "message": "An error happended while deleting the instance"
         }
+
+#@app.route('/timeline')
+#def timeline():
+    #response = requests.get('http://localhost:5000/api/timeline_post')
+    #print(response.json()['timeline_post'])
+    #posts = response.json()['timeline_post']
     
+    #return render_template('timeline.html', posts=posts)
