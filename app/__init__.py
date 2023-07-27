@@ -9,14 +9,17 @@ import requests
 load_dotenv()
 app = Flask(__name__)
 
-mydb = MySQLDatabase(
-    os.getenv('MYSQL_DATABASE'),
-    user=os.getenv('MYSQL_USER'),
-    password=os.getenv('MYSQL_PASSWORD'),
-    host=os.getenv('MYSQL_HOST'),
-    port=3306
-)
-
+if os.getenv("TESTING") == "true":
+    print("Running in test mode")
+    mydb = SqliteDatabase('file:memory?mode=memory&cache=shared', uri=True)
+else:
+    mydb = MySQLDatabase(
+        os.getenv('MYSQL_DATABASE'),
+        user=os.getenv('MYSQL_USER'),
+        password=os.getenv('MYSQL_PASSWORD'),
+        host=os.getenv('MYSQL_HOST'),
+        port=3306
+    )
 
 
 class TimelinePost(Model):
@@ -111,10 +114,23 @@ def experience_page():
 
 @app.route('/api/timeline_post', methods=['POST'])
 def post_time_line_post():
-    name = request.form['name']
-    email = request.form['email']
-    content = request.form['content']
-    timeline_post = TimelinePost.create(name=name, email=email, content=content)
+    if not request.form.get('name') or request.form['name'] == "":
+        return "Invalid name", 400
+    else:
+        name = request.form['name']
+    if not request.form['email'] or request.form['email'] == "":
+        return "Invalid email", 400
+    else:
+        email = request.form['email']
+    if not request.form['content'] or request.form['content'] == "":
+        return "Invalid content", 400
+    else:
+        content = request.form['content']
+    
+    valid_email = "@" in email and "." in email
+    if valid_email == False:
+        return "Invalid email", 400
+    timeline_post =TimelinePost.create(name=name, email=email, content=content)
 
     return model_to_dict(timeline_post)
 
@@ -129,8 +145,9 @@ def get_time_line_post():
 
 @app.route('/timeline')
 def timeline():
-    response = requests.get('http://localhost:5000/api/timeline_post')
-    print(response.json()['timeline_post'])
-    posts = response.json()['timeline_post']
+    #response = requests.get('http://localhost:5000/api/timeline_post')
+    #print(response.json()['timeline_post'])
+    #posts = response.json()['timeline_post']
     
-    return render_template('timeline.html', posts=posts)
+    #return render_template('timeline.html', posts=posts)
+    return render_template('timeline.html', title="Timeline", posts={})
