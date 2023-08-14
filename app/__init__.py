@@ -17,7 +17,8 @@ else:
         os.getenv('MYSQL_DATABASE'),
         user=os.getenv('MYSQL_USER'),
         password=os.getenv('MYSQL_PASSWORD'),
-        host=os.getenv('MYSQL_HOST')
+        host=os.getenv('MYSQL_HOST'),
+        port=3306
     )
 
 
@@ -135,18 +136,19 @@ def post_time_line_post():
 
 @app.route('/api/timeline_post', methods=['GET'])
 def get_time_line_post():
-    return {
-        'timeline_post': [
-            model_to_dict(p)
-            for p in TimelinePost.select().order_by(TimelinePost.created_at.desc())
-        ]
-    }
+    
+    val = {'timeline_post': [
+        model_to_dict(p)
+        for p in TimelinePost.select().order_by(TimelinePost.created_at.desc())
+    ]}
+
+    return val
 
 @app.route('/timeline')
 def timeline():
-    #response = requests.get('http://localhost:5000/api/timeline_post')
-    #print(response.json()['timeline_post'])
-    #posts = response.json()['timeline_post']
+    response = requests.get('http://localhost:5000/api/timeline_post')
+    print(response.json()['timeline_post'])
+    posts = response.json()['timeline_post']
     
     #return render_template('timeline.html', posts=posts)
-    return render_template('timeline.html', title="Timeline", posts={})
+    return render_template('timeline.html', title="Timeline", posts=posts)
