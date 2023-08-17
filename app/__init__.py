@@ -136,17 +136,19 @@ def post_time_line_post():
 
 @app.route('/api/timeline_post', methods=['GET'])
 def get_time_line_post():
-    
+    print("getting into timeline post")
     val = {'timeline_post': [
         model_to_dict(p)
         for p in TimelinePost.select().order_by(TimelinePost.created_at.desc())
     ]}
+    
 
     return val
 
 @app.route('/timeline')
 def timeline():
-    response = requests.get('http://localhost:5000/api/timeline_post')
+    print("getting request")
+    response = requests.get('https://127.0.0.1:5000/api/timeline_post')
     print(response.json()['timeline_post'])
     posts = response.json()['timeline_post']
     

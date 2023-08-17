@@ -169,7 +169,7 @@ body {
 
     <h4 class="header-text">Timeline</h4>
 
-    <div id="timeline">
+    <!-- <div id="timeline">
         {% for post in posts %}
         <div class="card my-3">
             <div class="card-body">
@@ -179,7 +179,54 @@ body {
             </div>
         </div>
         {% endfor %}
+    </div> -->
+
+    <div id="timeline">
+        <!-- Posts will be populated here -->
     </div>
+    
+    <script>
+        function fetchAndRenderTimeline() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/api/timeline_post', true);
+    
+            xhr.onload = function() {
+                if (xhr.status >= 200 && xhr.status < 400) {
+                    var response = JSON.parse(xhr.responseText);
+                    var posts = response.timeline_post;
+                    renderPosts(posts);
+                } else {
+                    console.error('Error fetching timeline data.');
+                }
+            };
+    
+            xhr.onerror = function() {
+                console.error('An error occurred while fetching timeline data.');
+            };
+    
+            xhr.send();
+        }
+    
+        function renderPosts(posts) {
+            var timelineDiv = document.getElementById('timeline');
+    
+            posts.forEach(function(post) {
+                var card = document.createElement('div');
+                card.className = 'card my-3';
+                card.innerHTML = `
+                    <div class="card-body">
+                        <h5 class="card-title">${post.name}</h5>
+                        <p class="card-text">${post.content}</p>
+                        <p class="card-text"><small class="text-muted">Posted by: ${post.email}</small></p>
+                    </div>
+                `;
+                timelineDiv.appendChild(card);
+            });
+        }
+    
+        // Call the fetchAndRenderTimeline function when the page loads
+        window.onload = fetchAndRenderTimeline;
+    </script>
 
 
 </body>
