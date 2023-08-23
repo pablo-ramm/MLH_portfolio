@@ -75,20 +75,20 @@ education = [
 ]
 work_experience = [
     {
-        "job_title": "Software Engineer",
-        "company_name": "Google",
-        "start_date": "January 2021",
+        "job_title": "Jr Software Engineer",
+        "company_name": "Greenapsis",
+        "start_date": "March 2023",
         "end_date": "Present",
-        "location": "Mountain View, CA",
-        "description": "Working on the Search team to improve the ranking algorithm."
+        "location": "Monterrey, NL",
+        "description": "Working on internal tools"
     },
     {
-        "job_title": "Intern",
-        "company_name": "Microsoft",
-        "start_date": "May 2020",
-        "end_date": "August 2020",
-        "location": "Redmond, WA",
-        "description": "Worked on improving the performance of the Excel calculation engine."
+        "job_title": "Intern QA developer",
+        "company_name": "Epicor",
+        "start_date": "June 2022",
+        "end_date": "MArch 2023",
+        "location": "Monterrey, NL",
+        "description": "Worked on development for test scripts"
     }
 ]
 
@@ -141,8 +141,6 @@ def get_time_line_post():
         model_to_dict(p)
         for p in TimelinePost.select().order_by(TimelinePost.created_at.desc())
     ]}
-    
-
     return val
 
 @app.route('/timeline')
