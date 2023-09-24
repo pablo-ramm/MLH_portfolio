@@ -112,6 +112,16 @@ def education_page():
 def experience_page():
     return render_template('experience.html', title='Work Experience', work_experience=work_experience)
 
+@app.route('/timeline')
+def timeline():
+    print("getting request")
+    response = requests.get('/api/timeline_post')
+    print(response.json()['timeline_post'])
+    posts = response.json()['timeline_post']
+    
+    #return render_template('timeline.html', posts=posts)
+    return render_template('timeline.html', title="Timeline", posts=posts)
+
 @app.route('/api/timeline_post', methods=['POST'])
 def post_time_line_post():
     if not request.form.get('name') or request.form['name'] == "":
@@ -143,12 +153,3 @@ def get_time_line_post():
     ]}
     return val
 
-@app.route('/timeline')
-def timeline():
-    print("getting request")
-    response = requests.get('http://myportfolio/api/timeline_post')
-    print(response.json()['timeline_post'])
-    posts = response.json()['timeline_post']
-    
-    #return render_template('timeline.html', posts=posts)
-    return render_template('timeline.html', title="Timeline", posts=posts)
