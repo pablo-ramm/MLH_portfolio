@@ -146,7 +146,7 @@ def get_time_line_post():
 @app.route('/timeline')
 def timeline():
     print("getting request")
-    response = requests.get('https://127.0.0.1:5000/api/timeline_post')
+    response = requests.get('/api/timeline_post')
     print(response.json()['timeline_post'])
     posts = response.json()['timeline_post']
     
