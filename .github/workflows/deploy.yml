@@ -31,5 +31,4 @@ jobs:
       - name: Deploy site
         run:
           ssh my-vps
-          chmod 600 ~/***/redeploy-site.sh
           '~/***/redeploy-site.sh'
