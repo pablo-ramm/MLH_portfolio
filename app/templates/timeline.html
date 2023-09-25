@@ -19,18 +19,21 @@
                 <p>Let me get to know more about you!</p>
             </div>
 
-            <div class="timeline-form">
+            <div class="timeline-form text-center">
                 <form action="/api/timeline_post" method="POST">
-                    <label>Name:</label>
-                    <input type="text" id="name" name="name" required>
-                    <br>
-                    <label>Email:</label>
-                    <input type="email" id="email" name="email" required>
-                    <br>
-                    <label>Content:</label>
-                    <textarea id="content" name="content" rows="4" required></textarea>
-                    <br>
-                    <button type="submit" class="btn">Submit</button>
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="content">Content:</label>
+                        <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
 
