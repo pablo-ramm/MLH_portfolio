@@ -90,98 +90,117 @@ body {
             color: #fff;
         }
     </style>
-    <script>
-        window.onload = function () {
-            const form = document.querySelector('form');
-
-            form.addEventListener('submit', function (event) {
-                event.preventDefault();
-
-                const name = document.querySelector('#name').value;
-                const email = document.querySelector('#email').value;
-                const content = document.querySelector('#content').value;
-
-                // Prepare data as application/x-www-form-urlencoded
-                let formData = new URLSearchParams();
-                formData.append('name', name);
-                formData.append('email', email);
-                formData.append('content', content);
-
-                fetch('/api/timeline_post', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: formData.toString()
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        const timeline = document.querySelector('#timeline');
-                        const newPost = document.createElement('div');
-                        newPost.innerHTML = `<div class="card my-3">
-            <div class="card-body">
-                <h5 class="card-title"> ${ data.name }</h5>
-                <p class="card-text">${ data.content }</p>
-                <p class="card-text"><small class="text-muted">Posted by: ${ data.email }</small></p>
-            </div>
-        </div>`;
-                        timeline.appendChild(newPost);
-
-                        // Clear the form fields
-                        form.reset();
-                    })
-                    .catch(error => console.error('Error:', error));
-            });
-        }
-    </script>
+    
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <h4 class="header-text">Add Timeline</h4>
+    <div class="container">
+        <nav>
+            <a href="/">
+                <img src="./static/img/logo.svg" class="nav-logo"/>
+            </a>
+            <ul id="sidemenu">
+                <li><a href="/#about">About Me</a></li>
+                <li><a href="/#experience">Work Experience</a></li>
+                <li><a href="/#projects">Projects</a></li>
+                <li><a href="/hobbies">Hobbies</a></li>
+                <li><a href="/timeline">Timeline</a></li>
+                <li><a href="/#contact">Contact Me</a></li>
+                <i class="fas fa-times" onclick="closemenu()"></i>
+            </ul>
+            <i class="fas fa-bars" onclick="openmenu()"></i>
+        </nav>
 
-    <form action="/api/timeline_post" method="post">
-        <div>
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-        </div>
-        <div>
-            <label for="content">Content:</label>
-            <textarea id="content" name="content" required></textarea>
-        </div>
-        <div>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-        </div>
-        <div>
-            <input type="submit" value="Submit">
-        </div>
-    </form>
-    <!-- <div id="timeline">
-        {% for post in posts %}
-        <div class="post">
-            <h3>{{ post.name }}</h3>
-            <p>{{ post.content }}</p>
-            <p>Posted by: {{ post.email }}</p>
-        </div>
-        {% endfor %}
-    </div> -->
-
-    <h4 class="header-text">Timeline</h4>
-    <h5 class="header-text">Here you can add any message</h5>
-
-    <div id="timeline">
-        {% for post in posts %}
-        <div class="card my-3">
-            <div class="card-body">
-                <h5 class="card-title">{{ post.name }}</h5>
-                <p class="card-text">{{ post.content }}</p>
-                <p class="card-text"><small class="text-muted">Posted by: {{ post.email }}</small></p>
+        <div id="timeline"></div>
+            <div class="timeline-title">
+                <h3 class="title-a">Timeline</h3>
+                <br>
+                <p>Let me get to know more about you!</p>
             </div>
+
+            <div class="timeline-form">
+                <form action="/api/timeline_post" method="POST">
+                    <label>Name:</label>
+                    <input type="text" id="name" name="name" required>
+                    <br>
+                    <label>Email:</label>
+                    <input type="email" id="email" name="email" required>
+                    <br>
+                    <label>Content:</label>
+                    <textarea id="content" name="content" rows="4" required></textarea>
+                    <br>
+                    <button type="submit" class="btn">Submit</button>
+                </form>
+            </div>
+
+            <h1 style="margin-top: 30px; margin-left: 30px;">Responses Received</h1>
+            <div id="timeline-posts"></div>
         </div>
-        {% endfor %}
     </div>
 
+<script>
+    var sidemenu = document.getElementById("sidemenu");
+
+    function openmenu() {
+        sidemenu.style.right = "0";
+    }
+
+    function closemenu() {
+        sidemenu.style.right = "-200px";
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Function to format the timestamp
+        function formatTimestamp(timestamp) {
+            var date = new Date(timestamp);
+            return date.toLocaleString();
+        }
+        
+        // Function to fetch and display the timeline posts
+        function fetchTimelinePosts() {
+            $.ajax({
+                url: '/api/timeline_post',
+                method: 'GET',
+                success: function(response) {
+                    // Clear the timeline-posts container
+                    $('#timeline-posts').empty();
+                    
+                    // Loop through the timeline posts and append them to the container
+                    $.each(response.timeline_posts, function(index, post) {
+                        var formattedTime = formatTimestamp(post.created_at);
+                        var postHTML = '<div>' + formattedTime + '<br>' + post.name + ' (' + post.email + '): <br>' + post.content + '<br> <br> </div>';
+                        $('#timeline-posts').append(postHTML);
+                    });
+                }
+            });
+        }
+        
+        // Call the fetchTimelinePosts function when the page loads
+        fetchTimelinePosts();
+        
+        // Submit form handler
+        $('form').submit(function(event) {
+            event.preventDefault(); // Prevent the default form submission
+            var form = $(this);
+            $.ajax({
+                url: form.attr('action'),
+                method: 'POST',
+                data: form.serialize(),
+                success: function(response) {
+                    // Update the timeline posts container with the new post
+                    var formattedTime = formatTimestamp(response.created_at);
+                    var postHTML = '<div>' + formattedTime + '<br>' + response.name + ' (' + response.email + '): <br>' + response.content + '<br> <br> </div>';
+                    $('#timeline-posts').prepend(postHTML);
+                    form[0].reset(); // Reset the form
+                }
+            });
+        });
+    });
+</script>
 
 </body>
 
