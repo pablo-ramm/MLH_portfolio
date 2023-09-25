@@ -25,32 +25,34 @@ class AppTestCase(unittest.TestCase):
         assert response.status_code == 200
         assert response.is_json
         json = response.get_json()
-        #assert len(json["timeline_post"]) == 0
-        print(json)
+        assert "timeline_posts" in json
+        assert len(json["timeline_posts"]) == 0
+        
         # TODOo: Add more tests relating to the /api/timeline_post GET and POST apis
         # Test POST method
         response2 = self.client.post("/api/timeline_post", data={
             'name': 'John Doe', 
             'email': 'john@example.com', 
-            'content': 'Hello world, I\'m John!'
+            'content': 'Hello world, Im John!'
         })
         assert response2.status_code == 200
         assert response2.is_json
         json = response2.get_json()
         assert json['name'] == 'John Doe'
         assert json['email'] == 'john@example.com'
-        assert json['content'] == 'Hello world, I\'m John!'
+        print(json['content'])
+        assert json['content'] == 'Hello world, Im John!'
 
         # Test GET method
         response3 = self.client.get("/api/timeline_post")
         assert response3.status_code == 200
         assert response3.is_json
         json = response3.get_json()
-        assert "timeline_post" in json
-        assert len(json["timeline_post"]) == 1
-        assert json['timeline_post'][0]['name'] == 'John Doe'
-        assert json['timeline_post'][0]['email'] == 'john@example.com'
-        assert json['timeline_post'][0]['content'] == 'Hello world, I\'m John!'
+        assert "timeline_posts" in json
+        assert len(json["timeline_posts"]) == 1
+        assert json['timeline_posts'][0]['name'] == 'John Doe'
+        assert json['timeline_posts'][0]['email'] == 'john@example.com'
+        assert json['timeline_posts'][0]['content'] == 'Hello world, Im John!'
 
         
 
