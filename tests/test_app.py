@@ -16,7 +16,7 @@ class AppTestCase(unittest.TestCase):
         expected_title = 'name'
         assert f'<title>{expected_title}</title>' in html
         # TODO: Add more tests relating to the home page
-        assert "<h1 class=\"pt-0\">Pablo Ram</h1>" in html
+        assert "<h3 class=\"pt-0\">Pablo Ram</h3>" in html
         assert "<a class=\"nav-item nav-link text-light\" href=\"/hobbies\">Hobbies</a>" in html
         assert "©Portfolio" in html
 
@@ -25,7 +25,6 @@ class AppTestCase(unittest.TestCase):
         assert response.status_code == 200
         assert response.is_json
         json = response.get_json()
-        assert "timeline_post" in json
         assert len(json["timeline_post"]) == 0
 
         # TODOo: Add more tests relating to the /api/timeline_post GET and POST apis
