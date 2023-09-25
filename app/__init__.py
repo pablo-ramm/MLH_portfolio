@@ -86,7 +86,7 @@ work_experience = [
         "job_title": "Intern QA developer",
         "company_name": "Epicor",
         "start_date": "June 2022",
-        "end_date": "MArch 2023",
+        "end_date": "March 2023",
         "location": "Monterrey, NL",
         "description": "Worked on development for test scripts"
     }
