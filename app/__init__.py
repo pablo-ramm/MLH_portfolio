@@ -133,10 +133,15 @@ def post_time_line_post():
     # Validate email
     import re
     email_regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+    sanitization_regex = r'<[^>]*>|[&<>"\']'
+
+    sanitized_name = re.sub(sanitization_regex, '', name)
+    sanitized_content = re.sub(sanitization_regex, '', content)
+
     if not re.fullmatch(email_regex, email):
         return {"error": "Invalid email"}, 400
 
-    timeline_post = TimelinePost.create(name=name, email=email, content=content)
+    timeline_post = TimelinePost.create(name=sanitized_name, email=email, content=sanitized_content)
 
     return model_to_dict(timeline_post)
 
