@@ -27,8 +27,8 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_IP: ${{ secrets.SSH_IP }}
-      - name: change permission
-        run: chmod 600 my-vps '~/***/redeploy-site.sh'
-        
+
       - name: Deploy site
-        run: ssh my-vps '~/***/redeploy-site.sh'
+        run:
+          ssh my-vps chmod 600 my-vps '~/***/redeploy-site.sh' 
+          ssh my-vps '~/***/redeploy-site.sh'
