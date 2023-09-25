@@ -114,7 +114,7 @@ def experience_page():
 
 @app.route('/timeline')
 def timeline():
-    return render_template('timeline.html', title="Timeline", name = info['name'])
+    return render_template('timeline.html', title="Timeline", name = "Pablo")
 
 @app.route('/api/timeline_post', methods=['POST'])
 def post_time_line_post():
