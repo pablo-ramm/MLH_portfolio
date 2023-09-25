@@ -31,4 +31,5 @@ jobs:
       - name: Deploy site
         run:
           ssh my-vps
-          '~/***/redeploy-site.sh'
+          chmod 600 ~/MLH_portfolio/redeploy-site.sh
+          '~/MLH_portfolio/redeploy-site.sh'
